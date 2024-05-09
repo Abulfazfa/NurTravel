@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Manage: Main";
+    Layout = "~/Views/Shared/_BetaAirlinesLayout.cshtml";
+}
+
+<section class="content flexcolumn">
+    <h2>@ViewBag.Title</h2>
+    <ul class="adm">
+        <li>@Html.ActionLink("Users", "Index", "Users", null, new { title = "Users" })</li>
+        <hr />
+        <li>@Html.ActionLink("Flights", "Index", "Flights", null, new { title = "Flights" })</li>
+        <li>@Html.ActionLink("Booked Flights", "Admin", "BookedFlights", null, new { title = "Booked Flights" })</li>
+        <hr />
+        <li>@Html.ActionLink("Book a Flight", "BookAFlight", "Flights", null, new { title = "Book a Flight" })</li>
+        <hr />
+        <li>@Html.ActionLink("ContactUs Messages", "Messages", "Contact", null, new { title = "Contact Us Messages" })</li>
+    </ul>
+</section>
+

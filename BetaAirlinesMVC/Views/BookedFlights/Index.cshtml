@@ -1,0 +1,60 @@
+﻿@model IEnumerable<BetaAirlinesMVC.ViewModel.MyFlightsViewModel>
+
+@if(Model.Count() > 0)
+{ 
+
+    ViewBag.Title = Model.First().FirstName + " " + Model.First().LastName + "'s Flights";
+    Layout = "~/Views/Shared/_BetaAirlinesLayout.cshtml";
+
+
+<section class="content flexcolumn">
+    <h2>@ViewBag.Title</h2>
+    <p>
+        @Html.ActionLink("Book a Flight", "BookAFlight", "Flights")
+    </p>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureAirport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalAirport)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureAirport)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalAirport)
+                </td>
+                <td class="buttons">
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</section>
+}
+else
+{ 
+    ViewBag.Title = "Booked Flights";
+    Layout = "~/Views/Shared/_BetaAirlinesLayout.cshtml";
+<section class="content flexcolumn">
+    <h2>You have no booked flights.</h2>
+    <p>
+        @Html.ActionLink("Book a Flight", "BookAFlight", "Flights")
+    </p>
+</section>
+}

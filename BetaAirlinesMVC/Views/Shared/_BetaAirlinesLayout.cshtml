@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Beta Airlines MVC</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        <img src="~/Content/images/BetaAirline_CompanyLogo.png" alt="Beta Airlines with logo" title="Beta Airlines Company Logo" />
+        <nav id="mainNav">
+            <div id="MainNavigation">
+                <ul class="level1" tabindex="0">
+                    <li>@Html.ActionLink("Home", "Index", "Home", null, new { title = "The home page of the website", @class = "level1" })</li>
+                    <li>@Html.ActionLink("Plan a Trip", "Plan", "Home", null, new { title = "Plan a Trip" })</li>
+                    @if (Session != null && (string)Session["role"] == "Admin")
+                    {
+                        <li>@Html.ActionLink("Admin Page", "Index", "Admin", null, new { title = "Admin" })</li>
+                    }
+                    else if (Session != null && (string)Session["role"] == "Manager")
+                    {
+                        <li>@Html.ActionLink("Management Page", "Index", "Manage", null, new { title = "Admin" })</li>
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink("Book a Flight", "BookAFlight", "Flights", null, new { title = "Book a Flight" })</li>
+                    }
+                    <li>@Html.ActionLink("Contact Us", "Index", "Contact", null, new { title = "A contact form to ask us a question or provide feedback." })</li>
+                    @if (Session != null && Session["id"] != null && Session["pw"] != null)
+                    {
+                        <li>@Html.ActionLink("Logout", "Login", "Users", null, new { title = "Logout" })</li>
+                    }
+                </ul>
+            </div><div style="clear:left;"></div>
+        </nav>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer>
+        <p><small>Copyright &copy; Beta Airlines 2021 - MVC Website by David Oberlander</small></p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/myScripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

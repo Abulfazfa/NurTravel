@@ -1,0 +1,77 @@
+﻿@model BetaAirlinesMVC.ViewModel.BookAFlightViewModel
+@using BetaAirlinesMVC.Utilities;
+
+@{
+    ViewBag.Title = "Book A Flight";
+    Layout = "~/Views/Shared/_BetaAirlinesLayout.cshtml";
+}
+
+<section class="content flexcolumn">
+    <h2>@ViewBag.Title</h2>
+
+    <p>
+        @Html.ActionLink("My Flights", "Index", "BookedFlights")
+    </p>
+
+    @using (Html.BeginForm("BookAFlight", "Flights", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get))
+    {
+        @Html.DropDownList("dpt", null, "-- Departure Flight --", htmlAttributes: new { @class = "form-control dropdown" })
+        @Html.DropDownList("arr", null, "-- Arrival Flight --", htmlAttributes: new { @class = "form-control dropdown" })
+        <input type="submit" value="Search" />
+    }
+    <table>
+        <tr class="row">
+            <th>
+                Departure Airport
+            </th>
+            <th>
+                Arrival Airport
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightLengthInMinutes)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.FlightList)
+        {
+            <tr class="row">
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureAirport.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalAirport.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureDate)
+                </td>
+                <td>
+                    @{
+                        TimeConversion timeConversion = new TimeConversion();
+                        string duration = timeConversion.GetDuration(item.FlightLengthInMinutes);
+                    }
+                    @Html.DisplayFor(modelItem => duration)
+                </td>
+                <td>
+                    @using (Html.BeginForm("Create", "BookedFlights", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" value="@ViewBag.UserID" name="usr" />
+
+                        <input type="hidden" value="@item.Id" name="fid" />
+                        <input type="submit" value="Book Flight" class="btn btn-primary" />
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+    @ViewBag.Test
+    <div class="backLink">
+        @Html.ActionLink("Logout", "Logout", "Users")
+    </div>
+
+</section>
