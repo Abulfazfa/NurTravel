@@ -13,11 +13,10 @@ using BetaAirlinesMVC.ViewModel;
 
 namespace BetaAirlinesMVC.Controllers
 {
-
+    [SessionCheck]
     // Uses BetaAirlinesMVC.Utilities to run a SessionCheck
     // Having it here runs the session check in all actions on this controller
     // Else place it only on the actions that you want it on
-    [SessionCheck]
     public class BookedFlightsController : Controller
     {
         private BetaAirlinesDbContext db = new BetaAirlinesDbContext();
@@ -27,32 +26,39 @@ namespace BetaAirlinesMVC.Controllers
         {
             List<MyFlightsViewModel> yourFlights = new List<MyFlightsViewModel>();
 
-            try { 
-            int loggedInUser = (int)Session["id"];
-            foreach (var flight in db.BookedFlights.Where(x => x.UserId == loggedInUser).OrderBy(x => x.DateBooked))
+            try
+            {
+                int loggedInUser = (int)Session["id"];
+                var bookedFlights = db.BookedFlights
+                                      .Where(x => x.UserId == loggedInUser)
+                                      .OrderBy(x => x.DateBooked)
+                                      .ToList();
+
+                foreach (var flight in bookedFlights)
                 {
                     // Get flight data
-                    Flight flights = db.Flights.Where(x => x.Id == flight.FlightId).SingleOrDefault();
-                    User theUser = db.Users.Where(u => u.Id == flight.UserId).SingleOrDefault();
-                    Airport depAirport = db.Airports.Where(a => a.Id == flights.DepartureAirportId).SingleOrDefault();
-                    Airport arrAirport = db.Airports.Where(a => a.Id == flights.ArrivalAirportId).SingleOrDefault();
+                    Flight flights = db.Flights.SingleOrDefault(x => x.Id == flight.FlightId);
+                    User theUser = db.Users.SingleOrDefault(u => u.Id == flight.UserId);
+                    Airport depAirport = db.Airports.SingleOrDefault(a => a.Id == flights.DepartureAirportId);
+                    Airport arrAirport = db.Airports.SingleOrDefault(a => a.Id == flights.ArrivalAirportId);
 
                     // Create my flight object
-                    MyFlightsViewModel mfvm = new MyFlightsViewModel();
-                    mfvm.Id = flight.Id;
-                    mfvm.UserId = flight.UserId;
-                    mfvm.FirstName = theUser.FirstName;
-                    mfvm.LastName = theUser.LastName;
-                    mfvm.DepartureDate = flights.DepartureDate;
-                    mfvm.DepartureAirport = depAirport.Name;
-                    mfvm.ArrivalAirport = arrAirport.Name;
-                    mfvm.ActiveBookedFlight = flight.Active;
-                    
-
+                    MyFlightsViewModel mfvm = new MyFlightsViewModel
+                    {
+                        Id = flight.Id,
+                        UserId = flight.UserId,
+                        FirstName = theUser.FirstName,
+                        LastName = theUser.LastName,
+                        DepartureDate = flights.DepartureDate,
+                        DepartureAirport = depAirport.Name,
+                        ArrivalAirport = arrAirport.Name,
+                        ActiveBookedFlight = flight.Active
+                    };
 
                     yourFlights.Add(mfvm);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 yourFlights = null;
                 ViewBag.AlertMessage = "You have no booked flights.";
@@ -61,12 +67,13 @@ namespace BetaAirlinesMVC.Controllers
             return View(yourFlights);
         }
 
+
         // GET: BookedFlights
-        public ActionResult Admin()
-        {
-            var bookedFlights = db.BookedFlights.Include(b => b.Flight).Include(b => b.BookedUserId).OrderBy(x => x.DateBooked);
-            return View(bookedFlights.ToList());
-        }
+        //public ActionResult Admin()
+        //{
+        //    var bookedFlights = db.BookedFlights.Include(b => b.Flight).Include(b => b.BookedUserId).OrderBy(x => x.DateBooked);
+        //    return View(bookedFlights.ToList());
+        //}
 
         // GET: BookedFlights/Details/5
         public ActionResult Details(int? id)

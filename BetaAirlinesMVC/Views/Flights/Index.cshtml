@@ -6,9 +6,10 @@
 }
 
 <section class="content flexcolumn">
+    <h1>It will show the details of the flights and also CRUD operations are also possible</h1>
     <h2>@ViewBag.Title</h2>
     <p>
-        @Html.ActionLink("Add New Flight", "Create")
+        @Html.ActionLink("Add New Flight", "Create", null, new { @class = "btn btn-primary" })
     </p>
     <table>
         <tr>
@@ -32,7 +33,7 @@
 
         @foreach (var item in Model)
         {
-            <tr>
+            <tr style="background-color:white;">
                 <td>
                     @Html.DisplayFor(modelItem => item.DepartureAirport.Name)
                 </td>
@@ -58,3 +59,47 @@
 
     </table>
 </section>
+
+<style>
+    /* Table Styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        color: #333; /* Change text color */
+    }
+
+    th {
+        background-color: green;
+        font-weight: bold;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: wheat;
+        
+    }
+
+    /* Button Styles */
+    .buttons a {
+        display: inline-block;
+        padding: 8px 16px;
+        margin-right: 5px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+        .buttons a:hover {
+            background-color: #0056b3;
+        }
+</style>
+

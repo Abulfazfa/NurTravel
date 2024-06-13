@@ -7,71 +7,108 @@
 }
 
 <section class="content flexcolumn">
+    <h1>Users can book flights in this action</h1>
     <h2>@ViewBag.Title</h2>
 
-    <p>
-        @Html.ActionLink("My Flights", "Index", "BookedFlights")
-    </p>
-
+    <div class="button-group">
+        @Html.ActionLink("My Flights", "Index", "BookedFlights", null, new { @class = "btn btn-secondary" })
+        @Html.ActionLink("Logout", "Logout", "Users", null, new { @class = "btn btn-danger" })
+    </div>
     @using (Html.BeginForm("BookAFlight", "Flights", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get))
     {
-        @Html.DropDownList("dpt", null, "-- Departure Flight --", htmlAttributes: new { @class = "form-control dropdown" })
-        @Html.DropDownList("arr", null, "-- Arrival Flight --", htmlAttributes: new { @class = "form-control dropdown" })
-        <input type="submit" value="Search" />
+        <div class="form-flex-container">
+            <div class="form-group">
+                @Html.DropDownList("dpt", null, "-- Departure Flight --", htmlAttributes: new { @class = "form-control dropdown" })
+            </div>
+            <div class="form-group">
+                @Html.DropDownList("arr", null, "-- Arrival Flight --", htmlAttributes: new { @class = "form-control dropdown" })
+            </div>
+            <button type="submit" style="margin-bottom: 15px;" class="btn btn-primary">Search</button>
+        </div>
     }
-    <table>
-        <tr class="row">
-            <th>
-                Departure Airport
-            </th>
-            <th>
-                Arrival Airport
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartureDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FlightLengthInMinutes)
-            </th>
-            <th></th>
-        </tr>
 
-        @foreach (var item in Model.FlightList)
-        {
-            <tr class="row">
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartureAirport.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArrivalAirport.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartureDate)
-                </td>
-                <td>
-                    @{
-                        TimeConversion timeConversion = new TimeConversion();
-                        string duration = timeConversion.GetDuration(item.FlightLengthInMinutes);
-                    }
-                    @Html.DisplayFor(modelItem => duration)
-                </td>
-                <td>
-                    @using (Html.BeginForm("Create", "BookedFlights", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" value="@ViewBag.UserID" name="usr" />
 
-                        <input type="hidden" value="@item.Id" name="fid" />
-                        <input type="submit" value="Book Flight" class="btn btn-primary" />
-                    }
-                </td>
-            </tr>
-        }
-
-    </table>
-    @ViewBag.Test
-    <div class="backLink">
-        @Html.ActionLink("Logout", "Logout", "Users")
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Departure Airport</th>
+                    <th>Arrival Airport</th>
+                    <th>Departure Date</th>
+                    <th>Flight Duration</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.FlightList)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.DepartureAirport.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ArrivalAirport.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DepartureDate)</td>
+                        <td>
+                            @{
+                                TimeConversion timeConversion = new TimeConversion();
+                                string duration = timeConversion.GetDuration(item.FlightLengthInMinutes);
+                            }
+                            @Html.DisplayFor(modelItem => duration)
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Create", "BookedFlights", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" value="@ViewBag.UserID" name="usr" />
+                                <input type="hidden" value="@item.Id" name="fid" />
+                                <button type="submit" class="btn btn-success">Book Flight</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-
+    @ViewBag.Test
 </section>
+
+
+<style>
+    /* Custom CSS for Book A Flight page */
+    .content {
+        padding: 20px;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .form-flex-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-group {
+        margin-right: 10px; /* Adjust as needed */
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+</style>

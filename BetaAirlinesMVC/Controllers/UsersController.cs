@@ -12,7 +12,6 @@ using BetaAirlinesMVC.Utilities;
 
 namespace BetaAirlinesMVC.Controllers
 {
-
     // Do NOT have Session Check on entire controller to avoid infinite loop of Login Action    
     public class UsersController : Controller
     {
@@ -26,8 +25,9 @@ namespace BetaAirlinesMVC.Controllers
 
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.UserRole).OrderBy(x=>x.FirstName);
+            var users = db.Users.Include(u => u.UserRole).OrderBy(x => x.FirstName);
             return View(users.ToList());
+            // return View();
         }
 
         // GET: Users/Details/5
@@ -37,30 +37,37 @@ namespace BetaAirlinesMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             User user = db.Users.Find(id);
-
-            // Create the list of User Roles
-            List<UserRole> roles = new List<UserRole>();
-
-            foreach (var userRole in db.UserRoles.Where(e => e.Id == id && e.Active == 1))
-            {
-                // get the single user's role
-                UserRole usersRole = db.UserRoles.Where(me => me.Id == userRole.Id).SingleOrDefault();
-
-                UserRole urm = new UserRole();
-                // Populate  the object with the information from the database
-                urm.Role = usersRole.Role;
-                urm.Description = usersRole.Description;
-
-                // Add to the roles list
-                roles.Add(urm);
-            }
             if (user == null)
             {
                 return HttpNotFound();
             }
+
+            // Get the list of active user roles for the user
+            var userRoles = db.UserRoles.Where(e => e.Id == id && e.Active == 1).ToList();
+
+            // Create the list of User Roles
+            List<UserRole> roles = new List<UserRole>();
+
+            foreach (var userRole in userRoles)
+            {
+                UserRole urm = new UserRole
+                {
+                    Role = userRole.Role,
+                    Description = userRole.Description
+                };
+
+                // Add to the roles list
+                roles.Add(urm);
+            }
+
+            // Pass the user and roles to the view
+            ViewBag.UserRoles = roles;
+
             return View(user);
         }
+
 
         // GET: Users/Create
         public ActionResult Create()
@@ -228,9 +235,9 @@ namespace BetaAirlinesMVC.Controllers
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-                else if(userRole.Role == "Manager")
+                else if(userRole.Role == "User")
                 {
-                    return RedirectToAction("Index", "Manage");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {

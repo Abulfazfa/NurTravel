@@ -26,11 +26,15 @@ namespace BetaAirlinesMVC.Models
         [Required]
         [ForeignKey("BookedUserId")]
         public int UserId { get; set; }
+
+        //[NotMapped]
         public virtual User BookedUserId { get; set; }
 
         [Required]
         [ForeignKey("Flight")]
         public int FlightId { get; set; }
+
+        //[NotMapped]
         public virtual Flight Flight { get; set; }
 
     }

@@ -7,6 +7,7 @@ using BetaAirlinesMVC.Utilities;
 
 namespace BetaAirlinesMVC.Controllers
 {
+    [SessionCheck]
     // Uses BetaAirlinesMVC.Utilities to run a SessionCheck
     // Having it here runs the session check in all actions on this controller
     // Else place it only on the actions that you want it on
@@ -15,7 +16,7 @@ namespace BetaAirlinesMVC.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-           // System.Diagnostics.Debug.WriteLine("test");
+            System.Diagnostics.Debug.WriteLine("test");
             return View();
         }
     }

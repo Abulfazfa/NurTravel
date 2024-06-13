@@ -2,7 +2,6 @@
 @model BetaAirlinesMVC.ViewModel.UserCreateViewModel
 
 @{
-    ViewBag.Title = "Add User";
     Layout = "~/Views/Shared/_BetaAirlinesLayout.cshtml";
 }
 
@@ -61,12 +60,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.RegisteredDate, htmlAttributes: new { @class = "control-label col-md-4" })
         <div class="col-md-8 formInputDiv">
-            @Html.EditorFor(model => model.RegisteredDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.EditorFor(model => model.RegisteredDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @disabled = "disabled" } })
             @Html.ValidationMessageFor(model => model.RegisteredDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group d-none">
         @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-4" })
         <div class="col-md-8 formInputDiv">
             @Html.DropDownListFor(model => model.Active, new[] { new SelectListItem { Text = "True (1)", Value = "1" }, new SelectListItem { Text = "False (0)", Value = "0" } }, htmlAttributes: new { @class = "form-control" })
@@ -74,13 +73,20 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group d-none">
         @Html.LabelFor(model => model.UserRoleID, "User Role", htmlAttributes: new { @class = "control-label col-md-4" })
         <div class="col-md-8 formInputDiv">
-            @Html.DropDownList("UserRoleID", ViewBag.UserRoleList as SelectList, "Please Select a Role", htmlAttributes: new { @class = "form-control" })
+            @{
+                // Define the list of roles
+                var userRoleList = ViewBag.UserRoleList as SelectList;
+                // Set the default role
+                var defaultRole = "User";
+            }
+            @Html.DropDownList("UserRoleID", userRoleList, defaultRole, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.UserRoleID, "", new { @class = "text-danger" })
         </div>
     </div>
+
 
     <div class="form-group">
         <div>
@@ -90,11 +96,8 @@
 </div>
     }
 
-    <div class="backLink">
+    @*<div class="backLink">
         @Html.ActionLink("Back to List", "Index")
-    </div>
+    </div>*@
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
 </section>

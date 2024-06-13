@@ -11,10 +11,10 @@ using BetaAirlinesMVC.Utilities;
 
 namespace BetaAirlinesMVC.Controllers
 {
+    [SessionCheck]
     // Uses BetaAirlinesMVC.Utilities to run a SessionCheck
     // Having it here runs the session check in all actions on this controller
     // Else place it only on the actions that you want it on
-    [SessionCheck]
     public class FlightsController : Controller
     {
         private BetaAirlinesDbContext db = new BetaAirlinesDbContext();
@@ -25,8 +25,9 @@ namespace BetaAirlinesMVC.Controllers
         {
 
 
-            var flights = db.Flights.Include(f => f.ArrivalAirport).Include(f => f.DepartureAirport).OrderBy(f=>f.DepartureDate);
+            var flights = db.Flights.Include(f => f.ArrivalAirport).Include(f => f.DepartureAirport).OrderBy(f => f.DepartureDate);
             return View(flights.ToList());
+            // return View();
         }
 
         // GET: Flights/Details/5

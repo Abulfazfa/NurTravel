@@ -24,6 +24,7 @@ namespace BetaAirlinesMVC.Controllers
             model.Active = 1;
 
             return View(model);
+            // return View();
         }
 
         // POST: Contacts/Create

@@ -11,11 +11,10 @@ using BetaAirlinesMVC.Utilities;
 
 namespace BetaAirlinesMVC.Controllers
 {
-
+    [SessionCheck]
     // Uses BetaAirlinesMVC.Utilities to run a SessionCheck
     // Having it here runs the session check in all actions on this controller
     // Else place it only on the actions that you want it on
-    [SessionCheck]
     public class UserRolesController : Controller
     {
         private BetaAirlinesDbContext db = new BetaAirlinesDbContext();
@@ -23,7 +22,8 @@ namespace BetaAirlinesMVC.Controllers
         // GET: UserRoles
         public ActionResult Index()
         {
-            return View(db.UserRoles.ToList());
+             return View(db.UserRoles.ToList());
+            //return View();
         }
 
         // GET: UserRoles/Details/5
