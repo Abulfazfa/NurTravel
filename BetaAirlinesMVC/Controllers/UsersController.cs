@@ -89,30 +89,41 @@ namespace BetaAirlinesMVC.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Username,Password,RegisteredDate,Active,UserRoleID")] User user)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Username,Password,ConfirmPassword,RegisteredDate,Active,UserRoleID")] UserCreateViewModel userCreateViewModel)
         {
             if (ModelState.IsValid)
             {
-                ViewBag.UserRoleID = new SelectList(db.UserRoles, "Id", "Role", user.UserRoleID);
-
                 DataValidation dataValidation = new DataValidation();
-                if(dataValidation.UsernameAlreadyExists(user.Username))
+                if (dataValidation.UsernameAlreadyExists(userCreateViewModel.Username))
                 {
                     ViewBag.Message = "Username already exists.";
-                    return View();
-                } 
-                else
-                {
-                    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    ViewBag.UserRoleList = new SelectList(db.UserRoles, "Id", "Role");
+                    return View(userCreateViewModel);
                 }
+
+                User user = new User
+                {
+                    Username = userCreateViewModel.Username,
+                    FirstName = userCreateViewModel.FirstName,
+                    LastName = userCreateViewModel.LastName,
+                    Password = userCreateViewModel.Password,
+                    RegisteredDate = DateTime.Today,
+                    Active = userCreateViewModel.Active,
+                    UserRoleID = userCreateViewModel.UserRoleID
+                };
+
+                db.Users.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
-            return View(user);
+
+            ViewBag.UserRoleList = new SelectList(db.UserRoles, "Id", "Role");
+            return View(userCreateViewModel);
         }
+
 
         // GET: Users/Edit/5
         [HttpGet]

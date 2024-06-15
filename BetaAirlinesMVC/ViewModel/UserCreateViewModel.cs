@@ -48,7 +48,7 @@ namespace BetaAirlinesMVC.ViewModel
         // Datatype of the foreign key object goes to, then whatever you name the virtual object, name the ForeignKey the same exactly.
         [Display(Name = "User Role")]
         [Required]
-        public int UserRoleID { get; set; }
-        public virtual UserRole UserRole { get; set; }
+        public int UserRoleID { get; set; } = 1;
+        //public virtual UserRole UserRole { get; set; }
     }
 }

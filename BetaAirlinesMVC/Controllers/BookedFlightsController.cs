@@ -13,7 +13,7 @@ using BetaAirlinesMVC.ViewModel;
 
 namespace BetaAirlinesMVC.Controllers
 {
-    [SessionCheck]
+   
     // Uses BetaAirlinesMVC.Utilities to run a SessionCheck
     // Having it here runs the session check in all actions on this controller
     // Else place it only on the actions that you want it on

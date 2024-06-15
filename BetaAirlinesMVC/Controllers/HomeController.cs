@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BetaAirlinesMVC.Models;
+using BetaAirlinesMVC.Utilities;
+using BetaAirlinesMVC.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,11 +11,37 @@ namespace BetaAirlinesMVC.Controllers
 {
     public class HomeController : Controller
     {
+        private BetaAirlinesDbContext db = new BetaAirlinesDbContext();
+        private DataValidation dv = new DataValidation();
+
+        // GET: Flights
         public ActionResult Index()
         {
-            return View();
+            ViewBag.dpt = new SelectList(db.Airports, "Id", "Name"); // Departure
+            ViewBag.arr = new SelectList(db.Airports, "Id", "Name"); // Arrival
+            ViewBag.UserID = Session["id"];
+            var model = new FlightSearchViewModel();
+            return View(model);
         }
+        [HttpPost]
+        public ActionResult Index(FlightSearchViewModel model)
+        {
+            ViewBag.dpt = new SelectList(db.Airports, "Id", "Name"); // Departure
+            ViewBag.arr = new SelectList(db.Airports, "Id", "Name"); // Arrival
+            ViewBag.UserID = Session["id"];
+            if (ModelState.IsValid)
+            {
+                var results = db.Flights
+                    .Where(f => f.DepartureAirport.Name.Contains(model.Location) &&
+                                f.DepartureDate >= model.Departure &&
+                                f.DepartureDate <= model.Return)
+                    .ToList();
 
+                model.SearchResults = results;
+            }
+
+            return View(model);
+        }
         public ActionResult Plan()
         {
 
