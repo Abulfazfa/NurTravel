@@ -5,7 +5,7 @@
 
 <h1>Booked Flights Details</h1>
 
-@if (Model.Any())
+@if (Model != null && Model.Any())
 {
     ViewBag.Title = Model.First().FirstName + " " + Model.First().LastName + "'s Flights";
 
@@ -16,6 +16,7 @@
         </p>
         <table>
             <tr>
+                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
                 <th>@Html.DisplayNameFor(model => model.DepartureDate)</th>
                 <th>@Html.DisplayNameFor(model => model.DepartureAirport)</th>
                 <th>@Html.DisplayNameFor(model => model.ArrivalAirport)</th>
@@ -25,6 +26,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                     <td>@Html.DisplayFor(modelItem => item.DepartureDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.DepartureAirport)</td>
                     <td>@Html.DisplayFor(modelItem => item.ArrivalAirport)</td>

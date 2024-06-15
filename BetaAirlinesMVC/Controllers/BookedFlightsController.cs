@@ -29,10 +29,23 @@ namespace BetaAirlinesMVC.Controllers
             try
             {
                 int loggedInUser = (int)Session["id"];
-                var bookedFlights = db.BookedFlights
+                List<BookedFlight> bookedFlights;
+                if (loggedInUser == 1)
+                {
+                    bookedFlights = db.BookedFlights
+                                      .OrderBy(x => x.DateBooked)
+                                      .ToList();
+                }
+                else
+                {
+                    bookedFlights = db.BookedFlights
                                       .Where(x => x.UserId == loggedInUser)
                                       .OrderBy(x => x.DateBooked)
                                       .ToList();
+                }
+
+              
+                
 
                 foreach (var flight in bookedFlights)
                 {

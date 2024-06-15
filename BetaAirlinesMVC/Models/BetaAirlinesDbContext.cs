@@ -11,6 +11,7 @@ namespace BetaAirlinesMVC.Models
 
         // Each table in the database that we want to use
         public DbSet<Airport> Airports { get; set; }
+        
         public DbSet<BookedFlight> BookedFlights { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<User> Users { get; set; }
