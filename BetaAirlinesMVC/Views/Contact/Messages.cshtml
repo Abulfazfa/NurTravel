@@ -14,28 +14,18 @@
     </p>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Message</th>
-                    <th>Date</th>
-                    <th>Active</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+           
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td class="email">@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Subject)</td>
-                        <td class="limitWidth">@Html.DisplayFor(modelItem => item.Message)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Active)</td>
-                        <td class="buttons">
+                        <td data-label="Name">@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td data-label="Email" class="email">@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td data-label="Subject">@Html.DisplayFor(modelItem => item.Subject)</td>
+                        <td data-label="Message" class="limitWidth">@Html.DisplayFor(modelItem => item.Message)</td>
+                        <td data-label="Date">@Html.DisplayFor(modelItem => item.Date)</td>
+                        <td data-label="Active">@Html.DisplayFor(modelItem => item.Active)</td>
+                        <td data-label="Actions" class="buttons">
                             @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
                         </td>
@@ -47,29 +37,148 @@
 </section>
 <style>
     /* Custom CSS for Messages table */
+    /* General content styling */
     .content {
         padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        margin: 0 auto;
     }
 
-    .table th, .table td {
-        vertical-align: middle;
+    /* Heading styles */
+    h1, h2 {
+        color: #343a40;
+        text-align: center;
     }
 
+    h1 {
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+
+    /* Button styling */
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    /* Table styling */
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table thead th {
+            background-color: #343a40;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #dee2e6;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+    /* Email column styling */
     .email {
-        width: 200px; /* Adjust width as needed */
+        width: 200px;
+        word-wrap: break-word;
     }
 
+    /* Message column styling */
     .limitWidth {
-        max-width: 200px; /* Adjust max-width as needed */
+        max-width: 200px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
 
-    .buttons a {
-        margin-right: 5px;
+    /* Button styling in actions column */
+    .buttons {
+        display: flex;
+        gap: 5px;
     }
 
-    /* Optional: Add additional styling as needed */
+        .buttons .btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
 
+        .buttons .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+            .buttons .btn-success:hover {
+                background-color: #218838;
+            }
+
+        .buttons .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+            .buttons .btn-danger:hover {
+                background-color: #c82333;
+            }
+
+    /* Responsive adjustments */
+
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+        .table tr {
+            margin-bottom: 15px;
+        }
+
+        .table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+        }
+
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 50%;
+                padding-right: 10px;
+                text-align: left;
+                font-weight: bold;
+            }
+    }
 </style>
