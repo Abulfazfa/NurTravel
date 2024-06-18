@@ -20,6 +20,7 @@
                 <th>@Html.DisplayNameFor(model => model.DepartureDate)</th>
                 <th>@Html.DisplayNameFor(model => model.DepartureAirport)</th>
                 <th>@Html.DisplayNameFor(model => model.ArrivalAirport)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
                 <th></th>
             </tr>
 
@@ -30,6 +31,7 @@
                     <td>@Html.DisplayFor(modelItem => item.DepartureDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.DepartureAirport)</td>
                     <td>@Html.DisplayFor(modelItem => item.ArrivalAirport)</td>
+                    <td>$@Html.DisplayFor(modelItem => item.Price)</td>
                     <td class="buttons">
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         @Html.ActionLink("Ticket", "Ticket", new { id = item.Id })

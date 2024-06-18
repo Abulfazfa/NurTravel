@@ -40,6 +40,7 @@ namespace BetaAirlinesMVC.ViewModel
 
         public List<Airport> DepartureAirportsList { get; set; }
         public List<Airport> ArrivalAirportsList { get; set; }
+        public int Price { get; set; }
 
     }
 }

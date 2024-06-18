@@ -35,5 +35,6 @@ namespace BetaAirlinesMVC.ViewModel
 
         [Display(Name = "Arrival Airport")]
         public string ArrivalAirport { get; set; }
+        public int Price { get; set; }
     }
 }

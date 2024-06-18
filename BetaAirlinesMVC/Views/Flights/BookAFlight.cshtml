@@ -36,6 +36,7 @@
                     <th>Arrival Airport</th>
                     <th>Departure Date</th>
                     <th>Flight Duration</th>
+                    <th>Price</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -46,6 +47,7 @@
                         <td>@Html.DisplayFor(modelItem => item.DepartureAirport.Name)</td>
                         <td>@Html.DisplayFor(modelItem => item.ArrivalAirport.Name)</td>
                         <td>@Html.DisplayFor(modelItem => item.DepartureDate)</td>
+                        <td>$@Html.DisplayFor(modelItem => item.Price)</td>
                         <td>
                             @{
                                 TimeConversion timeConversion = new TimeConversion();
@@ -59,6 +61,7 @@
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" value="@ViewBag.UserID" name="usr" />
                                 <input type="hidden" value="@item.Id" name="fid" />
+                                <input type="hidden" value="@item.Price" name="price" />
                                 <button type="submit" class="btn btn-success">Book Flight</button>
                             }
                         </td>

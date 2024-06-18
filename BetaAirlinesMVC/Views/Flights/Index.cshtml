@@ -17,6 +17,7 @@
                 <th>Arrival Airport</th>
                 <th>@Html.DisplayNameFor(model => model.DepartureDate)</th>
                 <th>@Html.DisplayNameFor(model => model.FlightLengthInMinutes)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
                 <th>@Html.DisplayNameFor(model => model.Active)</th>
                 <th>Actions</th>
             </tr>
@@ -29,6 +30,7 @@
                     <td>@Html.DisplayFor(modelItem => item.ArrivalAirport.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.DepartureDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.FlightLengthInMinutes)</td>
+                    <td>$@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>@Html.DisplayFor(modelItem => item.Active)</td>
                     <td class="buttons">
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" })

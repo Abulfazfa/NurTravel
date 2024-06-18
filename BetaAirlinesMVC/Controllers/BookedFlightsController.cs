@@ -65,7 +65,8 @@ namespace BetaAirlinesMVC.Controllers
                         DepartureDate = flights.DepartureDate,
                         DepartureAirport = depAirport.Name,
                         ArrivalAirport = arrAirport.Name,
-                        ActiveBookedFlight = flight.Active
+                        ActiveBookedFlight = flight.Active,
+                        Price = flight.Price
                     };
 
                     yourFlights.Add(mfvm);
@@ -116,7 +117,7 @@ namespace BetaAirlinesMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int usr, int fid, [Bind(Include = "Id,DateBooked,Active,UserId,FlightId")] BookedFlight bookedFlight)
+        public ActionResult Create(int usr, int fid, int price, [Bind(Include = "Id,DateBooked,Active,UserId,FlightId, Price")] BookedFlight bookedFlight)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +127,9 @@ namespace BetaAirlinesMVC.Controllers
                     bookedFlight.FlightId = fid;
                     bookedFlight.UserId = usr;
                     bookedFlight.Active = 1; // Default is active
+                    bookedFlight.Price = price;
                 }
+
                 db.BookedFlights.Add(bookedFlight);
                 db.SaveChanges();
                 return RedirectToAction("Index");

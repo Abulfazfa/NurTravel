@@ -37,5 +37,6 @@ namespace BetaAirlinesMVC.Models
 
         [DefaultValue(1)]
         public int Active { get; set; }
+        public int Price { get; set; }
     }
 }

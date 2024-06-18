@@ -24,6 +24,7 @@
                         <th>Arrival City</th>
                         <th>Departure Date</th>
                         <th>Flight Duration</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,12 +37,14 @@
                             <td>@item.ArrivalAirport.City</td>
                             <td>@item.DepartureDate.ToString("yyyy-MM-dd")</td>
                             <td>@item.FlightLengthInMinutes minutes</td>
+                            <td>@item.Price</td>
                             <td>
                                 @using (Html.BeginForm("Create", "BookedFlights", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <input style="display:none;" type="hidden" value="@ViewBag.UserID" name="usr" />
                                     <input style="display:none;" type="hidden" value="@item.Id" name="fid" />
+                                    <input style="display:none;" type="hidden" value="@item.Price" name="price" />
                                     <button type="submit" class="btn btn-success">Book Flight</button>
                                 }
                             </td>

@@ -36,6 +36,7 @@ namespace BetaAirlinesMVC.Models
 
         //[NotMapped]
         public virtual Flight Flight { get; set; }
+        public int Price { get; set; }
 
     }
 }
