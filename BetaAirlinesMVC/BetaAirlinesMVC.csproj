@@ -522,6 +522,7 @@
     <Compile Include="ViewModel\BookAFlightViewModel.cs" />
     <Compile Include="ViewModel\FlightSearchViewModel.cs" />
     <Compile Include="ViewModel\MyFlightsViewModel.cs" />
+    <Compile Include="ViewModel\TicketViewModel.cs" />
     <Compile Include="ViewModel\UserCreateViewModel.cs" />
     <Compile Include="ViewModel\UserLoginViewModel.cs" />
   </ItemGroup>
@@ -537,6 +538,7 @@
     <Content Include="assets\css\login.css" />
     <Content Include="assets\css\payment.css" />
     <Content Include="assets\css\paymentcard.css" />
+    <Content Include="assets\css\s.css" />
     <Content Include="assets\css\signup.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\styleAdd.css" />
@@ -649,6 +651,7 @@
     <Content Include="Views\Contact\Details.cshtml" />
     <Content Include="Views\Contact\Edit.cshtml" />
     <Content Include="Views\Contact\Confirmation.cshtml" />
+    <Content Include="Views\BookedFlights\Ticket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

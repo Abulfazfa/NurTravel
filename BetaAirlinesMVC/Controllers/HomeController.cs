@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace BetaAirlinesMVC.Controllers
 {
@@ -20,8 +21,8 @@ namespace BetaAirlinesMVC.Controllers
             ViewBag.dpt = new SelectList(db.Airports, "Id", "Name"); // Departure
             ViewBag.arr = new SelectList(db.Airports, "Id", "Name"); // Arrival
             ViewBag.UserID = Session["id"];
-            var model = new FlightSearchViewModel();
-            return View(model);
+            var flights = db.Flights.Include(f => f.ArrivalAirport).Include(f => f.DepartureAirport).OrderBy(f => f.DepartureDate);
+            return View(flights.ToList());
         }
         [HttpPost]
         public ActionResult Index(FlightSearchViewModel model)

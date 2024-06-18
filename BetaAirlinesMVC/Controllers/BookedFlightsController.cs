@@ -81,12 +81,12 @@ namespace BetaAirlinesMVC.Controllers
         }
 
 
-        // GET: BookedFlights
-        //public ActionResult Admin()
-        //{
-        //    var bookedFlights = db.BookedFlights.Include(b => b.Flight).Include(b => b.BookedUserId).OrderBy(x => x.DateBooked);
-        //    return View(bookedFlights.ToList());
-        //}
+        //GET: BookedFlights
+        public ActionResult Admin()
+        {
+            var bookedFlights = db.BookedFlights.Include(b => b.Flight).Include(b => b.BookedUserId).OrderBy(x => x.DateBooked);
+            return View(bookedFlights.ToList());
+        }
 
         // GET: BookedFlights/Details/5
         public ActionResult Details(int? id)
@@ -198,6 +198,22 @@ namespace BetaAirlinesMVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult Ticket(int id)
+        {
+            BookedFlight bookedFlight = db.BookedFlights.Find(id);
+            var flights = db.Flights.Include(f => f.ArrivalAirport).Include(f => f.DepartureAirport).ToList();
+            string departureCity = flights.FirstOrDefault(f => f.DepartureAirport == bookedFlight.Flight.DepartureAirport).DepartureAirport.City;
+            string arrivalCity = flights.FirstOrDefault(f => f.ArrivalAirport == bookedFlight.Flight.ArrivalAirport).ArrivalAirport.City;
+            TicketViewModel ticketViewModel = new TicketViewModel();
+            ticketViewModel.BookedFlight = bookedFlight;
+            ticketViewModel.ArrivalCity = arrivalCity;
+            ticketViewModel.DepartureCity = departureCity;
+            ticketViewModel.Username = db.Users.FirstOrDefault(u => u.Id == bookedFlight.UserId).Username;
+            return View(ticketViewModel);
+
+        }
+
 
         protected override void Dispose(bool disposing)
         {

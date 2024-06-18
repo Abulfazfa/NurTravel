@@ -32,6 +32,7 @@
                     <td>@Html.DisplayFor(modelItem => item.ArrivalAirport)</td>
                     <td class="buttons">
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Ticket", "Ticket", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -122,7 +123,7 @@ else
                 background-color: #0056b3;
             }
 
-    p a {
+    .content p a {
         background-color: #28a745;
         color: white;
         padding: 10px 20px;
